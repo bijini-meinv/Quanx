@@ -9,4 +9,4 @@
 hostname = *.tiktokv.com, *.byteoversea.com, *.tik-tokapi.com
 
 [filter_remote]
-https://raw.githubusercontent.com/Semporia/Quantumult-X/master/Filter/TikTok.list, tag=TikTok, force-policy=TikTok, update-interval=86400, opt-parser=false, enabled=true
+https://raw.githubusercontent.com/bijini-meinv/xxx/main/TikTok.list, tag=TikTok, force-policy=TikTok, update-interval=86400, opt-parser=false, enabled=true
