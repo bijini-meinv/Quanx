@@ -70,23 +70,23 @@ function Check() {
     }
     console.log(output.length+":"+relay)
     setTimeout(() => {
-      
-        console.log("⛳️ 共计 "+OKList.length+"个")
+      console.log("\n-----------------------------------\n");
+        console.log("⛳️ 共计 "+OKList.length+"个未送终")
 		  for (var i = 0; i < OKList.length; i++) {
 			console.log(OKList[i]);
 		}
-	   
+	       console.log("\n-----------------------------------\n");
         console.log("🏠 共计 "+Len(NoList)+" 个：")
 		
 		  for (var i = 0; i < NoList.length; i++) {
 			console.log(NoList[i]);
 		}
-        
+            console.log("\n-----------------------------------\n");
         console.log("🕹 共计 "+Len(ErrorList)+" 个：")
 		  for (var i = 0; i < ErrorList.length; i++) {
 			console.log(ErrorList[i]);
 		}
-		
+		    console.log("\n-----------------------------------\n");
         sign=1
         if (OKList[0] && pflag==1) { //有支持节点、且为策略组才操作
             ReOrder(OKList)
