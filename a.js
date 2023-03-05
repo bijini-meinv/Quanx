@@ -159,20 +159,13 @@ function ReOrder(cnt) {
         const dict = { [policy] : array[0]};
         if(array[0]) {
             console.log("选定未被送中节点："+array[0]+"延迟数据为 👉"+Ping)
-            Ping = " ⚡️ 节点延迟 ➟ 「 "+Ping + " 」 "
-        }
-        const mes1 = {
-            action: "set_policy_state",
-            content: dict
-        }; 
-        $configuration.sendMessage(mes1).then(resolve => {
-            if (resolve.ret) {
-                console.log("当前最优的节点 ➟ "+array[0])
-                if (cronsign == "Y") { 
-		   $notify("检测完成,当前最优节点👇", array[0] +"\n 👉 "+Ping)
+            Ping = " ⚡️ 节点延迟 ➟ 「 "+Ping + " 」 " 
+			$notify("检测完成,当前最优节点👇", array[0] +"\n 👉 "+Ping)
 		   $done()
-		}
-                }
+        }
+
+        $configuration.sendMessage(mes1).then(resolve => {
+         
     }, reject => {
             $done();
         });
