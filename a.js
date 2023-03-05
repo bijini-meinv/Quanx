@@ -154,26 +154,9 @@ function ReOrder(cnt) {
 		 console.log(array[i]);
 	 }   
 	    console.log("------------------------------------------\n")	    
-    let Ping =resolve.ret[array[0]]
-        const dict = { [policy] : array[0]};
-        if(array[0]) {
-            console.log("选定未被送中节点："+array[0]+"延迟数据为 👉"+Ping)
-            Ping = " ⚡️ 节点延迟 ➟ 「 "+Ping + " 」 "
-        }
-        const mes1 = {
-            action: "set_policy_state",
-            content: dict
-        }; 
-        $configuration.sendMessage(mes1).then(resolve => {
-            if (resolve.error) {
-                console.log(resolve.error);
-                content =pflag==0 && array[0]? `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin"><br><b> 🎉 该节点未被 Google 送中 </b><br><br>👇<br><br><font color=#FF5733>-------------------------<br><b>⟦ `+policy+` ⟧ </b><br>-------------------------</font>` : `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin"><br><b>😭 该节点已被 Google 送中 </b><br><br>👇<br><br><font color=#FF5733>-------------------------<br><b>⟦ `+policy+` ⟧ </b><br>-------------------------</font>`
-                content = pflag!=0 && !array[0]? `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">` + "<br>❌  <b>⟦ "+policy+ " ⟧ </b>⚠️ 切换失败<br><br><b>该策略组内未找到未被 Google 送中</b> 的节点" + "<br><br><font color=#FF5733>-----------------------------<br><b>检测详情请查看JS脚本记录</b><br>-----------------------------</font>"+`</p>` : content
-                $done({"title":"Google 送中检测&切换", "htmlMessage": content})
-            }
-            if (resolve.ret) {
-                console.log("当前最优的节点 ➟ "+array[0])
-                if (cronsign == "Y") { 
+         let Ping =resolve.ret[array[0]]
+
+            if (cronsign == "Y") { 
 		   $notify("检测完成,当前最优节点👇", array[0] +"\n 👉 "+Ping)
 		   $done()
 		}
