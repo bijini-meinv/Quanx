@@ -175,7 +175,7 @@ function ReOrder(cnt) {
             if (resolve.ret) {
                 console.log("当前最优的节点 ➟ "+array[0])
                 if (cronsign == "Y") { 
-		   $notify("检测完成,当前最优的节点是👉", array[0] +"\n 👉 "+Ping)
+		   $notify("检测完成,送中最优延迟👇", array[0] +"\n 👉 "+Ping)
 		   $done()
 		}
                 }
