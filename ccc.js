@@ -85,12 +85,12 @@ function Check() {
 			console.log(OKList[i]);
 		}
 	console.log("--------------------------------------------")	       
-        console.log("\n🏠 共计 "+Len(NoList)+" 个已送中节点 👇 ")
+        console.log("\n🏠 共计 "+NoList.length+" 个已送中节点 👇 ")
            for (var i = 0; i < NoList.length; i++) {
 			console.log(NoList[i]);
 		}
 	console.log("---------------------------------------------")	           
-        console.log("\n🕹 共计 "+Len(ErrorList)+" 个检测出错节点 👇 ")
+        console.log("\n🕹 共计 "+ErrorList.length+" 个检测出错节点 👇 ")
            for (var i = 0; i < ErrorList.length; i++) {
 			console.log(ErrorList[i]);
 		}
