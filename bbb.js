@@ -141,10 +141,8 @@ function ReOrder(cnt) {
     if (resolve.ret) {
         let output=JSON.stringify(resolve.ret);
 	console.log("-----------------------------------\n")	           
-        console.log("\n节点延迟：");
-	   for (var i = 0; i < output.length; i++) {
-		console.log(output[i]);
-		}
+        console.log("\n节点延迟："+output);
+	   
         //排序
 	console.log("-----------------------------------\n")	    
         console.log("排序前: ")
