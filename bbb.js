@@ -95,9 +95,18 @@ function Check() {
     }
     console.log(output.length+":"+relay)
     setTimeout(() => {
-        console.log("⛳️ 共计 "+OKList.length+" 个：未送中节点 ➟ "+ OKList)
-        console.log("🏠 共计 "+Len(NoList)+" 个："+NoList)
-        console.log("🕹 共计 "+Len(ErrorList)+" 个："+ErrorList)
+        console.log("\n⛳️ 共计 "+OKList.length+" 个：未送中节点 ➟ \n")
+         for (var i = 0; i < OKList.length; i++) {
+			console.log(OKList[i]);
+		}
+        console.log("\n🏠 共计 "+Len(NoList)+" 个：\n")
+           for (var i = 0; i < NoList.length; i++) {
+			console.log(NoList[i]);
+		}
+        console.log("\n🕹 共计 "+Len(ErrorList)+" 个：\n")
+           for (var i = 0; i < ErrorList.length; i++) {
+			console.log(ErrorList[i]);
+		}
         sign=1
         if (OKList[0] && pflag==1) { //有支持节点、且为策略组才操作
             ReOrder(OKList)
