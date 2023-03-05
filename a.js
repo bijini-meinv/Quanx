@@ -8,7 +8,7 @@ function GetPolicy(cnt) {
     if (cnt && cnt.indexOf("#policy=") !=0) {
         return decodeURIComponent(cnt.split("#policy=")[1].trim())
     }else {
-        return "Netflix"
+        return "自动选择"
     }
 }
 
