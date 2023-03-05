@@ -139,27 +139,28 @@ function ReOrder(cnt) {
         console.log(resolve.error);
     }
     if (resolve.ret) {
-        let output=JSON.stringify(resolve.ret);
+        let inputStr=JSON.stringify(resolve.ret);
 	console.log("-----------------------------------\n")	           
         console.log("\n节点延迟：");
-	    
+
+
 	const obj = {};
-	const regex = /"(.+?)":(\[.+?\])/g;
+	const regex = /"([^"]+)":\s*\[([\d,-]+)\]/g;
 
 	let match;
-	while ((match = regex.exec(output)) !== null) {
+	while ((match = regex.exec(inputStr)) !== null) {
 	  const key = match[1];
-	  const value = JSON.parse(match[2]);
+	  const value = match[2].split(",").map(v => v === "" ? null : isNaN(v) ? v : parseInt(v));
 	  obj[key] = value;
 	}
 
-	const result = JSON.stringify(obj);
+	const outputStr = JSON.stringify(obj);
 
-	console.log(result);
-	    
-	    
-	    
-	    
+	console.log(outputStr);
+
+	      for (var i = 0; i < outputStr.length; i++) {
+			console.log(outputStr[i]);
+		}
 	    
 	    
 	    
