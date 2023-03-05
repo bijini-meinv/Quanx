@@ -112,71 +112,62 @@ function Check() {
 
 //选择最优延迟节点
 function ReOrder(cnt) {
-    const array = cnt;
-    const messageURL = {
+  const array = cnt;
+  const messageURL = {
     action: "url_latency_benchmark",
     content: array
-};
-    $configuration.sendMessage(messageURL).then(resolve => {
+  };
+  $configuration.sendMessage(messageURL).then(resolve => {
     if (resolve.error) {
-        console.log(resolve.error);
+      console.log(resolve.error);
     }
     if (resolve.ret) {
-        let inputStr=JSON.stringify(resolve.ret);
-	console.log("------------------------------------------\n")	           
-        console.log("\n节点延迟：");
-	const json = JSON.parse(inputStr);
-	const keys = Object.keys(json).sort();
+      let inputStr = JSON.stringify(resolve.ret);
+      console.log("------------------------------------------\n")
+      console.log("\n节点延迟：");
+      const json = JSON.parse(inputStr);
+      const keys = Object.keys(json).sort();
 
-	for (const key of keys) {
-	  console.log(`${key}: [${json[key].join(', ')}]`);
-	}
+      for (const key of keys) {
+        console.log(`${key}: [${json[key].join(', ')}]`);
+      }
 
-	    
-	   
-        //排序
-	console.log("------------------------------------------\n")	    
-        console.log("排序前: ")
-	  for (var i = 0; i < array.length; i++) {
-		 console.log(array[i]);
-	 }   
-        if(array){
-            try {
-        array.sort(function (a,b) {
+      console.log("------------------------------------------\n")
+      console.log("排序前: ")
+      for (var i = 0; i < array.length; i++) {
+        console.log(array[i]);
+      }
+      if (array) {
+        try {
+          array.sort(function (a, b) {
             //console.log(a+" VS "+b)
-        return (resolve.ret[a][1]!=-1 && resolve.ret[b][1] !=-1)? resolve.ret[a][1]-resolve.ret[b][1] : resolve.ret[b][1]
-    })
-    } catch (err) {
-        console.log(err)
-    }
-    }  
-    console.log("\n排序后: ")
-	     for (var i = 0; i < array.length; i++) {
-		 console.log(array[i]);
-	 }   
-	    console.log("------------------------------------------\n")	    
-    let Ping =resolve.ret[array[0]]
-        const dict = { [policy] : array[0]};
-        if(array[0]) {
-            console.log("选定未被送中节点："+array[0]+"延迟数据为 👉"+Ping)
-            Ping = " ⚡️ 节点延迟 ➟ 「 "+Ping + " 」 " 
-			$notify("检测完成,当前最优节点👇", array[0] +"\n 👉 "+Ping)
-		   $done()
+            return (resolve.ret[a][1] != -1 && resolve.ret[b][1] != -1) ? resolve.ret[a][1] - resolve.ret[b][1] : resolve.ret[b][1]
+          })
+        } catch (err) {
+          console.log(err)
         }
-
-        $configuration.sendMessage(mes1).then(resolve => {
-         
-    }, reject => {
-            $done();
-        });
-        
+      }
+      console.log("\n排序后: ")
+      for (var i = 0; i < array.length; i++) {
+        console.log(array[i]);
+      }
+      console.log("------------------------------------------\n")
+      let Ping = resolve.ret[array[0]]
+      const dict = { [policy]: array[0] };
+      if (array[0]) {
+        console.log("选定未被送中节点：" + array[0] + "延迟数据为 👉" + Ping)
+        Ping = " ⚡️ 节点延迟 ➟ 「 " + Ping + " 」 "
+        $notify("检测完成,当前最优节点👇", array[0] + "\n 👉 " + Ping)
+        $done()
+      }
     }
-    //$done();
-}, reject => {
+  }, reject => {
     // Normally will never happen.
+    console.log(reject);
     $done();
-});
+  });
 }
+
 
 
 function testGoogle(pname) {
