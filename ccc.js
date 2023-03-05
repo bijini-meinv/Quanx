@@ -155,7 +155,7 @@ function ReOrder(cnt) {
       let Ping = resolve.ret[array[0]]
       const dict = { [policy]: array[0] };
       if (array[0]) {
-        console.log("未送中节点：" + array[0] + "延迟  👉" + Ping)
+        console.log("未送中最优节点：" + array[0] + "    延迟最低  👉" + Ping)
         Ping = " ⚡️ 节点延迟 ➟ 「 " + Ping + " 」 "
         $notify("检测完成,当前最优节点👇", array[0] + "\n 👉 " + Ping)
         $done()
