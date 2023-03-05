@@ -142,28 +142,11 @@ function ReOrder(cnt) {
         let inputStr=JSON.stringify(resolve.ret);
 	console.log("-----------------------------------\n")	           
         console.log("\n节点延迟：");
-
-
-	const obj = {};
-	const regex = /"([^"]+)":\s*\[([\d,-]+)\]/g;
-
-	let match;
-	while ((match = regex.exec(inputStr)) !== null) {
-	  const key = match[1];
-	  const value = match[2].split(",").map(v => v === "" ? null : isNaN(v) ? v : parseInt(v));
-	  obj[key] = value;
+	
+	const lines = inputStr.split('\n');
+	for (let i = 0; i < lines.length; i++) {
+	  console.log(lines[i]);
 	}
-
-	const outputStr = JSON.stringify(obj);
-
-	console.log(outputStr);
-
-	      for (var i = 0; i < outputStr.length; i++) {
-			console.log(outputStr[i]);
-		}
-	    
-	    
-	    
 	    
 	   
         //排序
