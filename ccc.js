@@ -22,8 +22,8 @@ const message = {
 
 var output=[]
 var OKList=[]
-var NoList=["已被送中节点 ➟ "]
-var ErrorList=["检测出错节点 ➟ "]
+var NoList=[]
+var ErrorList=[]
 var pflag=1 //是否是策略，或者简单节点
 var sign=0 //是否停止
 
@@ -80,17 +80,17 @@ function Check() {
     console.log(output.length+":"+relay)
     setTimeout(() => {
 	console.log("检测结束-------------------------------------")	    
-        console.log("\n⛳️ 共计 "+OKList.length+" 个节点未送中  ")
+        console.log("\n⛳️ 共计 "+OKList.length+" 个节点未送中 👇 ")
          for (var i = 0; i < OKList.length; i++) {
 			console.log(OKList[i]);
 		}
 	console.log("--------------------------------------------")	       
-        console.log("\n🏠 共计 "+Len(NoList)+" 个")
+        console.log("\n🏠 共计 "+Len(NoList)+" 个已送中节点 👇 ")
            for (var i = 0; i < NoList.length; i++) {
 			console.log(NoList[i]);
 		}
 	console.log("---------------------------------------------")	           
-        console.log("\n🕹 共计 "+Len(ErrorList)+" 个")
+        console.log("\n🕹 共计 "+Len(ErrorList)+" 个检测出错节点 👇 ")
            for (var i = 0; i < ErrorList.length; i++) {
 			console.log(ErrorList[i]);
 		}
