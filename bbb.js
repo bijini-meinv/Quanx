@@ -58,7 +58,7 @@ $configuration.sendMessage(message).then(resolve => {
 
         if (pflag==1) {
         console.log("节点数量："+resolve.ret[policy]["candidates"].length)
-	console.log("开始检测----------------------------")	
+	console.log("\n开始检测----------------------------")	
 
         if(resolve.ret[policy]["candidates"].length==0) {
             $done({"title":"Google 送中检测","htmlMessage":`<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin"><br><b>😭 无有效节点</b>`});
@@ -96,17 +96,17 @@ function Check() {
     }
     console.log(output.length+":"+relay)
     setTimeout(() => {
-	console.log("检测结束----------------------------\n")	    
+	console.log("检测结束------------------------------")	    
         console.log("\n⛳️ 共计 "+OKList.length+" 个节点未送中  ")
          for (var i = 0; i < OKList.length; i++) {
 			console.log(OKList[i]);
 		}
-	console.log("-----------------------------------\n")	       
+	console.log("-------------------------------------")	       
         console.log("\n🏠 共计 "+Len(NoList)+" 个")
            for (var i = 0; i < NoList.length; i++) {
 			console.log(NoList[i]);
 		}
-	console.log("-----------------------------------\n")	           
+	console.log("--------------------------------------")	           
         console.log("\n🕹 共计 "+Len(ErrorList)+" 个")
            for (var i = 0; i < ErrorList.length; i++) {
 			console.log(ErrorList[i]);
@@ -141,13 +141,13 @@ function ReOrder(cnt) {
     if (resolve.ret) {
         let output=JSON.stringify(resolve.ret);
 	console.log("-----------------------------------\n")	           
-        console.log("节点延迟：\n");
-			 for (var i = 0; i < output.length; i++) {
-			console.log(output[i]);
+        console.log("\n节点延迟：");
+	   for (var i = 0; i < output.length; i++) {
+		console.log(output[i]);
 		}
         //排序
 	console.log("-----------------------------------\n")	    
-        console.log("排序前: "+ array)
+        console.log("排序前: ")
 	  for (var i = 0; i < array.length; i++) {
 		 console.log(array[i]);
 	 }   
@@ -161,7 +161,7 @@ function ReOrder(cnt) {
         console.log(err)
     }
     }  
-    console.log("排序后: "+array)
+    console.log("\n排序后: ")
 	     for (var i = 0; i < array.length; i++) {
 		 console.log(array[i]);
 	 }   
