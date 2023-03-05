@@ -145,7 +145,7 @@ function ReOrder(cnt) {
 	
 	const lines = inputStr.split('\n');
 	for (let i = 0; i < lines.length; i++) {
-	  console.log(lines[i]);
+	  console.log(lines[i]+"\n");
 	}
 	    
 	   
