@@ -141,7 +141,29 @@ function ReOrder(cnt) {
     if (resolve.ret) {
         let output=JSON.stringify(resolve.ret);
 	console.log("-----------------------------------\n")	           
-        console.log("\n节点延迟："+output);
+        console.log("\n节点延迟：");
+	    
+	const obj = {};
+	const regex = /"(.+?)":(\[.+?\])/g;
+
+	let match;
+	while ((match = regex.exec(output)) !== null) {
+	  const key = match[1];
+	  const value = JSON.parse(match[2]);
+	  obj[key] = value;
+	}
+
+	const result = JSON.stringify(obj);
+
+	console.log(result);
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
 	   
         //排序
 	console.log("-----------------------------------\n")	    
