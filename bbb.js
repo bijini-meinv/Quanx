@@ -142,11 +142,13 @@ function ReOrder(cnt) {
         let inputStr=JSON.stringify(resolve.ret);
 	console.log("-----------------------------------\n")	           
         console.log("\n节点延迟：");
-	
-	const lines = inputStr.split('\n');
-	for (let i = 0; i < lines.length; i++) {
-	  console.log(lines[i]+"\n");
+	const json = JSON.parse(inputStr);
+	const keys = Object.keys(json).sort();
+
+	for (const key of keys) {
+	  console.log(`${key}: [${json[key].join(', ')}]`);
 	}
+
 	    
 	   
         //排序
