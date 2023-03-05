@@ -58,7 +58,7 @@ $configuration.sendMessage(message).then(resolve => {
 
         if (pflag==1) {
         console.log("节点数量："+resolve.ret[policy]["candidates"].length)
-			  console.log("开始检测............")	
+	console.log("开始检测----------------------------")	
 
         if(resolve.ret[policy]["candidates"].length==0) {
             $done({"title":"Google 送中检测","htmlMessage":`<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin"><br><b>😭 无有效节点</b>`});
@@ -96,14 +96,17 @@ function Check() {
     }
     console.log(output.length+":"+relay)
     setTimeout(() => {
+	console.log("检测结束----------------------------\n")	    
         console.log("\n⛳️ 共计 "+OKList.length+" 个节点未送中  ")
          for (var i = 0; i < OKList.length; i++) {
 			console.log(OKList[i]);
 		}
+	console.log("-----------------------------------\n")	       
         console.log("\n🏠 共计 "+Len(NoList)+" 个")
            for (var i = 0; i < NoList.length; i++) {
 			console.log(NoList[i]);
 		}
+	console.log("-----------------------------------\n")	           
         console.log("\n🕹 共计 "+Len(ErrorList)+" 个")
            for (var i = 0; i < ErrorList.length; i++) {
 			console.log(ErrorList[i]);
@@ -137,12 +140,17 @@ function ReOrder(cnt) {
     }
     if (resolve.ret) {
         let output=JSON.stringify(resolve.ret);
+	console.log("-----------------------------------\n")	           
         console.log("节点延迟：\n");
-			 for (var i = 0; i < output.output; i++) {
+			 for (var i = 0; i < output.length; i++) {
 			console.log(output[i]);
 		}
         //排序
+	console.log("-----------------------------------\n")	    
         console.log("排序前: "+ array)
+	  for (var i = 0; i < array.length; i++) {
+		 console.log(array[i]);
+	 }   
         if(array){
             try {
         array.sort(function (a,b) {
@@ -154,6 +162,10 @@ function ReOrder(cnt) {
     }
     }  
     console.log("排序后: "+array)
+	     for (var i = 0; i < array.length; i++) {
+		 console.log(array[i]);
+	 }   
+	    console.log("-----------------------------------\n")	    
     let Ping =resolve.ret[array[0]]
         const dict = { [policy] : array[0]};
         if(array[0]) {
