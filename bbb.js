@@ -96,7 +96,7 @@ function Check() {
             content = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin"><br><b> 🎉 该节点未被 Google 送中 </b><br><br>👇<br><br><font color=#FF5733>-------------------------<br><b>⟦ `+policy+` ⟧ </b><br>-------------------------</font>`
             $done({"title":"Google 送中检测&切换", "htmlMessage": content})
         } 
-    }, relay)
+    }, )
     
 }
 
