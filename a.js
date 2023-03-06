@@ -1,169 +1,135 @@
 
-var cronsign = $environment.executeType == 0 || $environment.executeType == "0" || $environment.executeType == "-1"? "Y" : "N"
-var policy = $environment.executeType == 0 || $environment.executeType == "0" || $environment.executeType == "-1"? GetPolicy($environment.sourcePath) : $environment.params
+const FILM_ID = 81280792
 
-//要是执行失败的话 把下面一行注释//去掉
-//console.log(JSON.stringify($environment))
-console.log("策略组："+policy)
+const BASE_URL_GPT = 'https://chat.openai.com/'
+const Region_URL_GPT = 'https://chat.openai.com/cdn-cgi/trace'
 
-function GetPolicy(cnt) {
-    if (cnt && cnt.indexOf("#policy=") !=-1) {
-        return decodeURIComponent(cnt.split("#policy=")[1].trim())
-    }else {
-        return "自动选择"
-    }
-}
+const link = { "media-url": "https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/img/southpark/7.png" } 
+const policy_name = "Netflix" //填入你的 netflix 策略组名
 
-const message = {
-    action: "get_customized_policy",
-    content: policy
+const arrow = " ➟ "
 
+const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36'
+
+// 即将登陆
+const STATUS_COMING = 2
+// 支持解锁
+const STATUS_AVAILABLE = 1
+// 不支持解锁
+const STATUS_NOT_AVAILABLE = 0
+// 检测超时
+const STATUS_TIMEOUT = -1
+// 检测异常
+const STATUS_ERROR = -2
+
+var opts = {
+  policy: $environment.params
 };
 
-var output=[]
-var Chatgpt=[]
-var NoList=[]
-var ErrorList=[]
-var pflag=1 //是否是策略，或者简单节点
-var sign=0 //是否停止
+var opts1 = {
+  policy: $environment.params,
+  redirection: false
+};
 
+
+var flags = new Map([[ "AC" , "🇦🇨" ] ,["AE","🇦🇪"], [ "AF" , "🇦🇫" ] , [ "AI" , "🇦🇮" ] , [ "AL" , "🇦🇱" ] , [ "AM" , "🇦🇲" ] , [ "AQ" , "🇦🇶" ] , [ "AR" , "🇦🇷" ] , [ "AS" , "🇦🇸" ] , [ "AT" , "🇦🇹" ] , [ "AU" , "🇦🇺" ] , [ "AW" , "🇦🇼" ] , [ "AX" , "🇦🇽" ] , [ "AZ" , "🇦🇿" ] , ["BA", "🇧🇦"], [ "BB" , "🇧🇧" ] , [ "BD" , "🇧🇩" ] , [ "BE" , "🇧🇪" ] , [ "BF" , "🇧🇫" ] , [ "BG" , "🇧🇬" ] , [ "BH" , "🇧🇭" ] , [ "BI" , "🇧🇮" ] , [ "BJ" , "🇧🇯" ] , [ "BM" , "🇧🇲" ] , [ "BN" , "🇧🇳" ] , [ "BO" , "🇧🇴" ] , [ "BR" , "🇧🇷" ] , [ "BS" , "🇧🇸" ] , [ "BT" , "🇧🇹" ] , [ "BV" , "🇧🇻" ] , [ "BW" , "🇧🇼" ] , [ "BY" , "🇧🇾" ] , [ "BZ" , "🇧🇿" ] , [ "CA" , "🇨🇦" ] , [ "CF" , "🇨🇫" ] , [ "CH" , "🇨🇭" ] , [ "CK" , "🇨🇰" ] , [ "CL" , "🇨🇱" ] , [ "CM" , "🇨🇲" ] , [ "CN" , "🇨🇳" ] , [ "CO" , "🇨🇴" ] , [ "CP" , "🇨🇵" ] , [ "CR" , "🇨🇷" ] , [ "CU" , "🇨🇺" ] , [ "CV" , "🇨🇻" ] , [ "CW" , "🇨🇼" ] , [ "CX" , "🇨🇽" ] , [ "CY" , "🇨🇾" ] , [ "CZ" , "🇨🇿" ] , [ "DE" , "🇩🇪" ] , [ "DG" , "🇩🇬" ] , [ "DJ" , "🇩🇯" ] , [ "DK" , "🇩🇰" ] , [ "DM" , "🇩🇲" ] , [ "DO" , "🇩🇴" ] , [ "DZ" , "🇩🇿" ] , [ "EA" , "🇪🇦" ] , [ "EC" , "🇪🇨" ] , [ "EE" , "🇪🇪" ] , [ "EG" , "🇪🇬" ] , [ "EH" , "🇪🇭" ] , [ "ER" , "🇪🇷" ] , [ "ES" , "🇪🇸" ] , [ "ET" , "🇪🇹" ] , [ "EU" , "🇪🇺" ] , [ "FI" , "🇫🇮" ] , [ "FJ" , "🇫🇯" ] , [ "FK" , "🇫🇰" ] , [ "FM" , "🇫🇲" ] , [ "FO" , "🇫" ] , [ "FR" , "🇫🇷" ] , [ "GA" , "🇬🇦" ] , [ "GB" , "🇬🇧" ] , [ "HK" , "🇭🇰" ] ,["HU","🇭🇺"], [ "ID" , "🇮🇩" ] , [ "IE" , "🇮🇪" ] , [ "IL" , "🇮🇱" ] , [ "IM" , "🇮🇲" ] , [ "IN" , "🇮🇳" ] , [ "IS" , "🇮🇸" ] , [ "IT" , "🇮🇹" ] , [ "JP" , "🇯🇵" ] , [ "KR" , "🇰🇷" ] , [ "LU" , "🇱🇺" ] , [ "MO" , "🇲🇴" ] , [ "MX" , "🇲🇽" ] , [ "MY" , "🇲🇾" ] , [ "NL" , "🇳🇱" ] , [ "PH" , "🇵🇭" ] , [ "RO" , "🇷🇴" ] , [ "RS" , "🇷🇸" ] , [ "RU" , "🇷🇺" ] , [ "RW" , "🇷🇼" ] , [ "SA" , "🇸🇦" ] , [ "SB" , "🇧" ] , [ "SC" , "🇸🇨" ] , [ "SD" , "🇸🇩" ] , [ "SE" , "🇸🇪" ] , [ "SG" , "🇸🇬" ] , [ "TH" , "🇹🇭" ] , [ "TN" , "🇹🇳" ] , [ "TO" , "🇹🇴" ] , [ "TR" , "🇹🇷" ] , [ "TV" , "🇹🇻" ] , [ "TW" , "🇨🇳" ] , [ "UK" , "🇬🇧" ] , [ "UM" , "🇺🇲" ] , [ "US" , "🇺🇸" ] , [ "UY" , "🇺🇾" ] , [ "UZ" , "🇺🇿" ] , [ "VA" , "🇻🇦" ] , [ "VE" , "🇻🇪" ] , [ "VG" , "🇻🇬" ] , [ "VI" , "🇻🇮" ] , [ "VN" , "🇻🇳" ] , [ "ZA" , "🇿🇦"]])
+
+let result = {
+  
+  "ChatGPT" : "<b>ChatGPT: </b>检测失败，请重试 ❗️"
+
+
+}
+const message = {
+  action: "get_policy_state",
+  content: $environment.params
+};
+
+;(async () => {
+
+
+
+
+/  cnt = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">` +'----------------------</br></br>'+result["Disney"]+'</br></br>----------------------</br>'+$environment.params + `</p>`
 $configuration.sendMessage(message).then(resolve => {
     if (resolve.error) {
-        console.log(resolve.error);
-        $done()
+      console.log(resolve.error);
+      $done()
     }
     if (resolve.ret) {
-        //console.log(JSON.stringify(resolve.ret))
-        output=JSON.stringify(resolve.ret[message.content])? JSON.parse(JSON.stringify(resolve.ret[message.content]["candidates"])) : [policy]
-        pflag = JSON.stringify(resolve.ret[message.content])? pflag:0
-        console.log(" Chatgpt检测 ")
-        console.log("节点or策略组："+pflag)
-
-        if (pflag==1) {
-        console.log("节点数量："+resolve.ret[policy]["candidates"].length)
-	console.log("\n开始检测-----------------------------------")	
-
-        if(resolve.ret[policy]["candidates"].length==0) {
-            $done({"title":"Google Chatgpt检测","htmlMessage":`<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin"><br><b>😭 无有效节点</b>`});
-        }
+      let output=JSON.stringify(resolve.ret[message.content])? JSON.stringify(resolve.ret[message.content]).replace(/\"|\[|\]/g,"").replace(/\,/g," ➟ ") : $environment.params
+      let content = "--------------------------------------</br>"+([result["Dazn"],result["Discovery"],result["Paramount"],result["Disney"],result["ChatGPT"],result["Netflix"],result["YouTube"]]).join("</br></br>")
+      content = content + "</br>--------------------------------------</br>"+"<font color=#CD5C5C>"+"<b>节点</b> ➟ " + output+ "</font>"
+      content =`<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">` + content + `</p>`
+      //$notify(typeof(output),output)
+      console.log(output);
+      $done({"title":result["title"],"htmlMessage":content})
+      
     }
 
-       
-        Check()
- 
-    }
-}, reject => {
- 
+  }, reject => {
+
     $done();
-});
+  });  
 
-function Len(cnt) {
-    return cnt.length-1
-}
-
-function Check() {
-    var relay = 2000;
-    for ( var i=0;i < output.length;i++) {
-        testChatGPT(output[i])
-        }
-    if (output.length<=5) {
-        relay = 2000
-    } else if (output.length<10) {
-        relay =4000
-    } else if (output.length<15) {
-        relay =6000
-    } else if (output.length<20) {
-        relay =8000
-    } else {
-        relay =35000
-    }
-    console.log(output.length+":"+relay)
-    setTimeout(() => {
-	console.log("检测结束-------------------------------------")	    
-        console.log("\n⛳️ 共计 "+Chatgpt.length+" 个节点未Chatgpt 👇 ")
-         for (var i = 0; i < Chatgpt.length; i++) {
-			console.log(Chatgpt[i]);
-		}
-	console.log("--------------------------------------------")	       
-        console.log("\n🏠 共计 "+NoList.length+" 个已Chatgpt节点 👇 ")
-           for (var i = 0; i < NoList.length; i++) {
-			console.log(NoList[i]);
-		}
-	console.log("---------------------------------------------")	           
-        console.log("\n🕹 共计 "+ErrorList.length+" 个检测出错节点 👇 ")
-           for (var i = 0; i < ErrorList.length; i++) {
-			console.log(ErrorList[i]);
-		}
-        sign=1
-        if (Chatgpt[0] && pflag==1) { //有支持节点、且为策略组才操作
-            ReOrder(Chatgpt)
-            } else if (!Chatgpt[0]){ //不支持
-                content =pflag==0 ? `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin"><br><b>😭 该节点已被 Google Chatgpt </b><br><br>👇<br><br><font color=#FF5733>-------------------------<br><b>⟦ `+policy+` ⟧ </b><br>-------------------------</font>`: `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">` + "<br>❌  <b>⟦ "+policy+ " ⟧ </b>⚠️ 切换失败<br><br><b>该策略组内未找到未被 Google Chatgpt</b> 的节点" + "<br><br><font color=#FF5733>-----------------------------<br><b>检测详情请查看JS脚本记录</b><br>-----------------------------</font>"+`</p>`
-                //为节点且检测超时/出错
-                content = pflag==0 && Len(NoList)==0 ? content = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin"><br><b>⚠️ 该节点 Google Chatgpt检测失败 </b><br><br>👇<br><br><font color=#FF5733>-------------------------<br><b>⟦ `+policy+` ⟧ </b><br>-------------------------</font>`: content
-                $done({"title":"Google Chatgpt检测&切换", "htmlMessage": content})
-            } else if (Chatgpt[0]){ //支持, 但为节点
-            content = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin"><br><b> 🎉 该节点未被 Google Chatgpt </b><br><br>👇<br><br><font color=#FF5733>-------------------------<br><b>⟦ `+policy+` ⟧ </b><br>-------------------------</font>`
-            $done({"title":"Google Chatgpt检测&切换", "htmlMessage": content})
-        } 
-    }, relay)
-    
-}
-
-//选择最优延迟节点
-function ReOrder(cnt) {
-  const array = cnt;
-  const messageURL = {
-    action: "url_latency_benchmark",
-    content: array
-  };
-  $configuration.sendMessage(messageURL).then(resolve => {
+})()
+.finally(() => {
+  
+  $configuration.sendMessage(message).then(resolve => {
     if (resolve.error) {
       console.log(resolve.error);
+      $done()
     }
     if (resolve.ret) {
-      let inputStr = JSON.stringify(resolve.ret);
-      console.log("------------------------------------------\n")
-      console.log("\n节点延迟：");
-      const json = JSON.parse(inputStr);
-      const keys = Object.keys(json).sort();
-
-      for (const key of keys) {
-        console.log(`${key}: [${json[key].join(', ')}]`);
-      }
-
-      console.log("------------------------------------------\n")
-   
-     
-      if (array) {
-        try {
-          array.sort(function (a, b) {
-            //console.log(a+" VS "+b)
-            return (resolve.ret[a][1] != -1 && resolve.ret[b][1] != -1) ? resolve.ret[a][1] - resolve.ret[b][1] : resolve.ret[b][1]
-          })
-        } catch (err) {
-          console.log(err)
-        }
-      }
-     
-      console.log("------------------------------------------\n")
-      let Ping = resolve.ret[array[0]]
-      const dict = { [policy]: array[0] };
-      if (array[0]) {
-        console.log("未Chatgpt最优节点：" + array[0] + "    延迟最低  👉" + Ping)
-        Ping = " ⚡️ 节点延迟 ➟ 「 " + Ping + " 」 "
-        $notify("检测完成,当前最优节点👇", array[0] + "\n 👉 " + Ping)
-        $done()
-      }
+      let output=JSON.stringify(resolve.ret[message.content])? JSON.stringify(resolve.ret[message.content]).replace(/\"|\[|\]/g,"").replace(/\,/g," ➟ ") : $environment.params
+      let content = "--------------------------------------</br>"+([result["Dazn"],result["Discovery"],result["Paramount"],result["Disney"],result["ChatGPT"],result["Netflix"],result["YouTube"]]).join("</br></br>")
+      content = content + "</br>--------------------------------------</br>"+"<font color=#CD5C5C>"+"<b>节点</b> ➟ " + output+ "</font>"
+      content =`<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">` + content + `</p>`
+      //$notify(typeof(output),output)
+      console.log(output);
+      $done({"title":result["title"],"htmlMessage":content})
+      
     }
+    //$done();|
   }, reject => {
     // Normally will never happen.
-    console.log(reject);
     $done();
-  });
+  }); 
+  
+    $done({"title":result["title"],"htmlMessage":`<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">`+'----------------------</br></br>'+"🚥 检测异常"+'</br></br>----------------------</br>'+ output + `</p>`})
+}
+  );
+
+  return new Promise((resolve, reject) => {
+    let opts = {
+      url: 'https://disney.api.edge.bamgrid.com/v1/public/graphql',
+      headers: {
+        'Accept-Language': 'en',
+        Authorization: accessToken,
+        'Content-Type': 'application/json',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36',
+      },
+      body: JSON.stringify({
+        query:
+          'query($preferredLanguages: [String!]!, $version: String) {globalization(version: $version) { uiLanguage(preferredLanguages: $preferredLanguages) }}',
+        variables: { version: '1.5.0', preferredLanguages: ['en'] },
+      }),
+    }
+
+    $task.fetch(opts).then( response => {
+
+      resolve(response.status === 200)
+    }, reason => {
+        reject('Error')
+        return
+    })
+  })
 }
 
 
+
+
+support_countryCodes=["T1","XX","AL","DZ","AD","AO","AG","AR","AM","AU","AT","AZ","BS","BD","BB","BE","BZ","BJ","BT","BA","BW","BR","BG","BF","CV","CA","CL","CO","KM","CR","HR","CY","DK","DJ","DM","DO","EC","SV","EE","FJ","FI","FR","GA","GM","GE","DE","GH","GR","GD","GT","GN","GW","GY","HT","HN","HU","IS","IN","ID","IQ","IE","IL","IT","JM","JP","JO","KZ","KE","KI","KW","KG","LV","LB","LS","LR","LI","LT","LU","MG","MW","MY","MV","ML","MT","MH","MR","MU","MX","MC","MN","ME","MA","MZ","MM","NA","NR","NP","NL","NZ","NI","NE","NG","MK","NO","OM","PK","PW","PA","PG","PE","PH","PL","PT","QA","RO","RW","KN","LC","VC","WS","SM","ST","SN","RS","SC","SL","SG","SK","SI","SB","ZA","ES","LK","SR","SE","CH","TH","TG","TO","TT","TN","TR","TV","UG","AE","US","UY","VU","ZM","BO","BN","CG","CZ","VA","FM","MD","PS","KR","TW","TZ","TL","GB"]
 
 function testChatGPT() {
   return new Promise((resolve, reject) =>{
@@ -189,7 +155,7 @@ function testChatGPT() {
         let res = support_countryCodes.indexOf(region)
         if (res != -1) {
           result["ChatGPT"] = "<b>ChatGPT: </b>支持 "+arrow+ "⟦"+flags.get(region.toUpperCase())+"⟧ 🎉"
-          console.log("支持 ChatGPT    这里是否有windows-1")
+          console.log("支持 ChatGPT")
           resolve("支持 ChatGPT")
           return
         } else {
