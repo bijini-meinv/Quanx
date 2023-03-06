@@ -63,7 +63,7 @@ function Len(cnt) {
 
 function Check() {
     
-    for ( var i=0;i < 23;i++) {
+    for ( var i=0;i < 24;i++) {
         testGoogle(output[i])
         }
     
