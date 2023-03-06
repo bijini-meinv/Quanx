@@ -73,7 +73,7 @@ function Len(cnt) {
 
 function Check() {
     var relay = 2000;
-    for ( var i=0;i < output.length;i++) {
+    for ( var i=0;i < 5;i++) {
         testChatGPT(output[i])
         }
     if (output.length<=5) {
@@ -177,11 +177,11 @@ function ReOrder(cnt) {
 
 // openai test
 
-function testChatGPT(pname) {
-    let resp = JSON.stringify(response)
-      console.log( resp + pname )
+function testChatGPT() {
+	   
   return new Promise((resolve, reject) =>{
- 
+  let resp1 = JSON.stringify(response)
+      console.log("resp1"=resp1)
     let option = {
       url: BASE_URL_GPT,
       opts: opts1,
