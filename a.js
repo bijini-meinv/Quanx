@@ -178,16 +178,18 @@ function ReOrder(cnt) {
 // openai test
 
 function testChatGPT(pname) {
+    let resp = JSON.stringify(response)
+      console.log( resp + pname )
   return new Promise((resolve, reject) =>{
-	 let pname=pname
+ 
     let option = {
       url: BASE_URL_GPT,
       opts: opts1,
       timeout: 2800,
     }
     $task.fetch(option).then(response=> {
-      let resp = JSON.stringify(pname)
-      
+      let resp = JSON.stringify(response)
+      console.log("ChatGPT Main Test")
       let jdg = resp.indexOf("text/plain")
       if(jdg == -1) {
       let option1 = {
