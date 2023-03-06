@@ -66,18 +66,8 @@ function Check() {
     for ( var i=0;i < output.length;i++) {
         testGoogle(output[i])
         }
-    if (output.length<=5) {
-        relay = 2000
-    } else if (output.length<10) {
-        relay =4000
-    } else if (output.length<15) {
-        relay =6000
-    } else if (output.length<20) {
-        relay =8000
-    } else {
-        relay =10000
-    }
-    console.log(output.length+":"+relay)
+    
+    console.log(output.length)
     setTimeout(() => {
 	console.log("检测结束------------------------------")	    
         console.log("\n⛳️ 共计 "+OKList.length+" 个节点未送中  ")
