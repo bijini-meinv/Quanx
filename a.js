@@ -165,8 +165,10 @@ function ReOrder(cnt) {
 
 
 
-function testChatGPT() {
+
+function testChatGPT(pname) {
   return new Promise((resolve, reject) =>{
+	     console.log("paname="+pname)
     let option = {
       url: BASE_URL_GPT,
       opts: opts1,
