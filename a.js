@@ -89,19 +89,10 @@ function Check() {
     }
     console.log(output.length+":"+relay)
     setTimeout(() => {
-	console.log("检测结束-------------------------------------")	    
-        console.log("\n⛳️ 共计 "+Chatgpt.length+" 个节点未Chatgpt 👇 ")
-         for (var i = 0; i < Chatgpt.length; i++) {
-			console.log(Chatgpt[i]);
-		}
-	console.log("--------------------------------------------")	       
-        console.log("\n🏠 共计 "+NoList.length+" 个已Chatgpt节点 👇 ")
-           for (var i = 0; i < NoList.length; i++) {
-			console.log(NoList[i]);
-		}
+	
 	console.log("---------------------------------------------")	           
         console.log("\n🕹 共计 "+ErrorList.length+" 个检测出错节点 👇 ")
-           for (var i = 0; i < ErrorList.length; i++) {
+           for (var i = 0; i < 1; i++) {
 			console.log(ErrorList[i]);
 		}
         sign=1
@@ -180,8 +171,7 @@ function ReOrder(cnt) {
 function testChatGPT() {
 	   
   return new Promise((resolve, reject) =>{
-  let resp1 = JSON.stringify(response)
-      console.log("resp1"=resp1)
+  
     let option = {
       url: BASE_URL_GPT,
       opts: opts1,
@@ -214,7 +204,7 @@ function testChatGPT() {
           return
         }
       }, reason => {
-        console.log("Check-Error"+reason)
+        console.log("Check-Error"+region)
      
       })
     } else {
@@ -223,6 +213,6 @@ function testChatGPT() {
    
     }
     }, reason => {
-      console.log("ChatGPT-Error"+reason)
+      console.log("ChatGPT-Error"+region)
      
     })})}
