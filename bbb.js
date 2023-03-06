@@ -62,8 +62,8 @@ function Len(cnt) {
 }
 
 function Check() {
-    var relay = 2000;
-    for ( var i=0;i < output.length;i++) {
+    
+    for ( var i=0;i < 23;i++) {
         testGoogle(output[i])
         }
     
