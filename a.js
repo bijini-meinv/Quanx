@@ -168,7 +168,7 @@ function ReOrder(cnt) {
 
 function testChatGPT(pname) {
   return new Promise((resolve, reject) =>{
-	     console.log("paname="+pname)
+	     
     let option = {
       url: BASE_URL_GPT,
       opts: opts1,
@@ -186,9 +186,9 @@ function testChatGPT(pname) {
       }
       $task.fetch(option1).then(response=> {
         console.log("ChatGPT Region Test")
-        let region = response.body.split("loc=")[1].split("\n")[0]
+       
         console.log("ChatGPT Region: "+region)
-        let res = support_countryCodes.indexOf(region)
+        let res = support_countryCodes.indexOf(pname)
         if (res != -1) {
           result["ChatGPT"] = "<b>ChatGPT: </b>支持 "+arrow+ "⟦"+flags.get(region.toUpperCase())+"⟧ 🎉"
           console.log("支持 ChatGPT    这里是否有windows-1")
