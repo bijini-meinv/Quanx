@@ -75,7 +75,7 @@ function Check() {
     } else if (output.length<20) {
         relay =8000
     } else {
-        relay =35000
+        relay =20000
     }
     console.log(output.length+":"+relay)
     setTimeout(() => {
