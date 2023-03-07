@@ -133,33 +133,7 @@ function ReOrder(cnt) {
       }
 
       console.log("------------------------------------------\n")
-      console.log("排序前: ")
-      for (var i = 0; i < array.length; i++) {
-        console.log(array[i]);
-      }
-      if (array) {
-        try {
-          array.sort(function (a, b) {
-            //console.log(a+" VS "+b)
-            return (resolve.ret[a][1] != -1 && resolve.ret[b][1] != -1) ? resolve.ret[a][1] - resolve.ret[b][1] : resolve.ret[b][1]
-          })
-        } catch (err) {
-          console.log(err)
-        }
-      }
-      console.log("\n排序后: ")
-      for (var i = 0; i < array.length; i++) {
-        console.log(array[i]);
-      }
-      console.log("------------------------------------------\n")
-      let Ping = resolve.ret[array[0]]
-      const dict = { [policy]: array[0] };
-      if (array[0]) {
-        console.log("未送中最优节点：" + array[0] + "    延迟最低  👉" + Ping)
-        Ping = " ⚡️ 节点延迟 ➟ 「 " + Ping + " 」 "
-        $notify("检测完成,当前最优节点👇", array[0] + "\n 👉 " + Ping)
-        $done()
-      }
+   
     }
   }, reject => {
     // Normally will never happen.
