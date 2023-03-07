@@ -141,12 +141,12 @@ function testGoogle(pname) {
             if (sign==0) {
             if (sCode == 400) {
                 NoList.push(pname)
-                console.log(pname + ": 该节点已被送中 ->" +sCode)
+                console.log(pname.slice(0, 25) + ":  【✔】 ")
                 resolve("YES")
                 return
-            } else {
+            } else { 
                 OKList.push(pname)//结束前推送
-                console.log(pname + ": 该节点未被送中 ->" +sCode)
+                console.log(pname.slice(0, 25) + ":  【💡】")
                 resolve("No")
                 return
             }
@@ -156,7 +156,7 @@ function testGoogle(pname) {
         }, reason => {
             if (sign==0) {
             ErrorList.push(pname)
-            console.log(pname + ": 该节点检测失败")
+            console.log(pname.slice(0, 25) + ": ❌")
             reject("Error")
         }
             return
