@@ -141,12 +141,12 @@ function testGoogle(pname) {
             if (sign==0) {
             if (sCode == 400) {
                 NoList.push(pname)
-                console.log(pname.slice(0, 25) + ":  【✔】 ")
+                console.log(pname + " -> 已送中 ")
                 resolve("YES")
                 return
             } else { 
                 OKList.push(pname)//结束前推送
-                console.log(pname.slice(0, 25) + ":  【💡】")
+                console.log(pname + " -> 未送中 ")
                 resolve("No")
                 return
             }
@@ -156,7 +156,7 @@ function testGoogle(pname) {
         }, reason => {
             if (sign==0) {
             ErrorList.push(pname)
-            console.log(pname.slice(0, 25) + ": ❌")
+            console.log(pname + "   ❌")
             reject("Error")
         }
             return
