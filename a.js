@@ -1,6 +1,6 @@
+
+var policy = ($environment.executeType == 0 || $environment.executeType == "0" || $environment.executeType == "-1") ? GetPolicy($environment.sourcePath) : $environment.params;
 const support_countryCodes = ["T1","XX","AL","DZ","AD","AO", "KR","TW","TZ","TL","GB"];
-
-
 
 // 定义获取策略的函数
 function getPolicy() {
