@@ -95,9 +95,7 @@ function Check() {
 			console.log(ErrorList[i]);
 		}
         sign=1
-        if (OKList[0] && pflag==1) { //有支持节点、且为策略组才操作
-            ReOrder(OKList)
-            } else if (!OKList[0]){ //不支持
+         if (!OKList[0]){ //不支持
                 content =pflag==0 ? `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin"><br><b>😭 该节点已被 Google 送中 </b><br><br>👇<br><br><font color=#FF5733>-------------------------<br><b>⟦ `+policy+` ⟧ </b><br>-------------------------</font>`: `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">` + "<br>❌  <b>⟦ "+policy+ " ⟧ </b>⚠️ 切换失败<br><br><b>该策略组内未找到未被 Google 送中</b> 的节点" + "<br><br><font color=#FF5733>-----------------------------<br><b>检测详情请查看JS脚本记录</b><br>-----------------------------</font>"+`</p>`
                 //为节点且检测超时/出错
                 content = pflag==0 && Len(NoList)==0 ? content = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin"><br><b>⚠️ 该节点 Google 送中检测失败 </b><br><br>👇<br><br><font color=#FF5733>-------------------------<br><b>⟦ `+policy+` ⟧ </b><br>-------------------------</font>`: content
@@ -110,37 +108,6 @@ function Check() {
     
 }
 
-//选择最优延迟节点
-function ReOrder(cnt) {
-  const array = cnt;
-  const messageURL = {
-    action: "url_latency_benchmark",
-    content: array
-  };
-  $configuration.sendMessage(messageURL).then(resolve => {
-    if (resolve.error) {
-      console.log(resolve.error);
-    }
-    if (resolve.ret) {
-      let inputStr = JSON.stringify(resolve.ret);
-      console.log("------------------------------------------\n")
-      console.log("\n节点延迟：");
-      const json = JSON.parse(inputStr);
-      const keys = Object.keys(json).sort();
-
-      for (const key of keys) {
-        console.log(`${key}: [${json[key].join(', ')}]`);
-      }
-
-      console.log("------------------------------------------\n")
-   
-    }
-  }, reject => {
-    // Normally will never happen.
-    console.log(reject);
-    $done();
-  });
-}
 
 
 
