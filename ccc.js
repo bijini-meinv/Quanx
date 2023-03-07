@@ -79,7 +79,7 @@ function Check() {
     }
     console.log(output.length+":"+relay)
     setTimeout(() => {
-	console.log("-----------------检测结束--------------------")	    
+	console.log("\n-----------------检测结束--------------------")	    
         console.log("\n⛳️ 共计 "+OKList.length+" 个节点未送中 👇 ")
          for (var i = 0; i < OKList.length; i++) {
 			console.log(OKList[i]);
