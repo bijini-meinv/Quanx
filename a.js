@@ -1,4 +1,4 @@
-const support_countryCodes = ["T1","XX","AL","DZ","AD","AO", /*...省略部分内容...*/ , "KR","TW","TZ","TL","GB"];
+const support_countryCodes = ["T1","XX","AL","DZ","AD","AO", "KR","TW","TZ","TL","GB"];
 
 var policy = ($environment.executeType == 0 || $environment.executeType == "0" || $environment.executeType == "-1") ? GetPolicy($environment.sourcePath) : $environment.params;
 
